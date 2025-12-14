@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eclipse Executor</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Star animation */
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 3s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.2; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Moving stars */
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(-100vh); }
+    }
+
+    .moving-star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: drift linear infinite;
+    }
+
+    /* Tilt effect */
+    .tilt {
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-white font-sans relative overflow-x-hidden overflow-y-auto"
+      style="background: linear-gradient(135deg, #000000, #0a0a0a);">
+
+  <!-- STAR FIELD -->
+  <div id="stars"></div>
+
+  <div class="max-w-2xl w-full mx-auto p-6 relative z-10 space-y-12">
+
+    <!-- HEADER SECTION -->
+    <div class="bg-black/70 backdrop-blur-xl rounded-3xl shadow-2xl p-8 text-center space-y-6 border border-slate-800">
+      <h1 class="text-4xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+        Eclipse Executor
+      </h1>
+      <p class="text-slate-400 italic">Made by: <span class="text-indigo-400">@7kcy</span></p>
+      <img
+        id="logo"
+        src="SilverE2.png"
+        alt="Eclipse Executor Logo"
+        class="w-44 h-44 mx-auto rounded-2xl object-cover shadow-lg tilt"
+      />
+    </div>
+
+    <!-- ECLIPSE UI SECTION -->
+    <div class="bg-black/70 backdrop-blur-xl rounded-3xl shadow-2xl p-8 text-center space-y-8 border border-slate-800">
+      <h2 class="text-2xl font-bold text-indigo-300">EclipseUI:</h2>
+
+      <!-- Eclipse PNG (bigger + tilty) -->
+      <img
+        id="eclipse"
+        src="Eclipse.png"
+        alt="Eclipse PNG"
+        class="w-96 mx-auto rounded-xl shadow-lg tilt"
+      />
+
+      <!-- Eclipse GIF -->
+      <img
+        src="EclipseGif.gif"
+        alt="Eclipse GIF"
+        class="w-72 mx-auto rounded-xl shadow-md"
+      />
+    </div>
+
+    <!-- SOCIALS/DOWNLOAD SECTION -->
+    <div class="bg-black/70 backdrop-blur-xl rounded-3xl shadow-2xl p-8 text-center space-y-6 border border-slate-800">
+      <h2 class="text-2xl font-bold text-indigo-300">Socials / Download:</h2>
+
+      <div class="flex flex-col gap-4">
+        <a
+          href="https://discord.gg/nscrdqueaP"
+          target="_blank"
+          class="block w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-500 hover:to-indigo-700 transition transform hover:scale-105 shadow-md"
+        >
+          🚀 Join Discord
+        </a>
+
+        <a
+          href="https://www.youtube.com/@Eclipse.Executor"
+          target="_blank"
+          class="block w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 transition transform hover:scale-105 shadow-md"
+        >
+          ▶️ YouTube Channel
+        </a>
+
+        <a
+          href="Download.zip"
+          download
+          class="block w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-800 hover:from-emerald-500 hover:to-emerald-700 transition transform hover:scale-105 shadow-lg font-semibold"
+        >
+          ⬇️ Download Eclipse
+        </a>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <p class="text-xs text-slate-500 text-center">
+      © 2025 Eclipse Executor
+    </p>
+  </div>
+
+  <!-- STAR GENERATION SCRIPT -->
+  <script>
+    const starContainer = document.getElementById("stars");
+    const numStars = 120; // thicker background
+    const numMovingStars = 60;
+
+    // Twinkling stars
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+
+      const size = Math.random() * 3 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+
+      star.style.animationDelay = `${Math.random() * 5}s`;
+
+      starContainer.appendChild(star);
+    }
+
+    // Moving stars
+    for (let i = 0; i < numMovingStars; i++) {
+      const star = document.createElement("div");
+      star.classList.add("moving-star");
+
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+
+      const duration = Math.random() * 20 + 10;
+      star.style.animationDuration = `${duration}s`;
+
+      starContainer.appendChild(star);
+    }
+
+    // Tilt effect function
+    function addTiltEffect(element, intensity = 25, scale = 1.1) {
+      element.addEventListener("mousemove", (e) => {
+        const rect = element.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * intensity;
+        const rotateY = ((x - centerX) / centerX) * intensity;
+
+        element.style.transform = `rotateX(${ -rotateX }deg) rotateY(${ rotateY }deg) scale(${scale})`;
+      });
+
+      element.addEventListener("mouseleave", () => {
+        element.style.transform = "rotateX(0) rotateY(0) scale(1)";
+      });
+    }
+
+    const logo = document.getElementById("logo");
+    const eclipse = document.getElementById("eclipse");
+
+    addTiltEffect(logo, 25, 1.1);       // normal tilt
+    addTiltEffect(eclipse, 40, 1.2);    // bigger + super tilty
+  </script>
+
+</body>
+</html>
